@@ -1,29 +1,49 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <span class="text">ABCDEFG</span>
     <router-view />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+export default {};
+const debounce = func => {
+  let timer;
+  return event => {
+    if (timer) {
+      clearTimeout(timer);
     }
-  }
+    timer = setTimeout(
+      () => {
+        func();
+      },
+      100,
+      event
+    );
+  };
+};
+
+const alterRootFontSize = (function() {
+  const html = document.querySelector("html");
+  return function() {
+    let fontSize = window.innerWidth / 10;
+    fontSize = fontSize > 50 ? 50 : fontSize;
+    html.style.fontSize = fontSize + "px";
+    console.log("alter font-size");
+  };
+})();
+
+window.addEventListener("DOMContentLoaded", () => {
+  alterRootFontSize();
+});
+
+window.addEventListener("resize", debounce(alterRootFontSize));
+</script>
+
+<style lang="scss">
+.text {
+  font-family: "Days One";
+  font-size: 1rem;
+  color: orange;
 }
 </style>
