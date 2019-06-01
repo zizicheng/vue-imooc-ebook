@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <span class="text">ABCDEFG</span>
     <router-view />
   </div>
 </template>
@@ -40,10 +39,10 @@ window.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("resize", debounce(alterRootFontSize));
 </script>
 
-<style lang="scss">
-.text {
-  font-family: "Days One";
-  font-size: 1rem;
-  color: orange;
+<style lang="scss" scoped>
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 </style>

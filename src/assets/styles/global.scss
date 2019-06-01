@@ -1,6 +1,11 @@
 @import "./reset";
+@import "./mixin";
+@import "./transition";
 
-$ratio: 375 / 10;
-@function px2rem($px) {
-    @return $px / $ratio + rem;
+
+
+.icon {
+    color: #333;
+    font-size: px2rem(20);
 }
+
