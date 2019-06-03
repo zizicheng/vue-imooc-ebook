@@ -19,6 +19,15 @@
     overflow: hidden;
     white-space: nowrap;
 }
+@mixin ellipsis2($line) {
+     display: -webkit-box;
+     -webkit-box-orient: vertical;
+     -webkit-line-clamp: $line;
+     white-space: normal;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     word-break: break-all;
+}
 
 $ratio: 375 / 10;
 

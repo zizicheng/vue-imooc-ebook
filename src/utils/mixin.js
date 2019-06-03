@@ -1,6 +1,6 @@
 import { mapGetters, mapActions } from "vuex";
-import { themeList, addCss } from "./book";
-import { saveLocation } from "./localStorage";
+import { themeList, addCss, getReadTimeByMinute } from "./book";
+import { saveLocation, getBookmark } from "./localStorage";
 export const ebookMixin = {
   computed: {
     ...mapGetters([
@@ -68,13 +68,25 @@ export const ebookMixin = {
     },
     refreshLocation() {
       const currentLocation = this.currentBook.rendition.currentLocation();
-      const startCfi = currentLocation.start.cfi;
-      const progress = this.currentBook.locations.percentageFromCfi(
-        currentLocation.start.cfi
-      );
-      this.setProgress(Math.floor(progress * 100));
-      this.setSection(currentLocation.start.index);
-      saveLocation(this.fileName, startCfi);
+      if (currentLocation && currentLocation.start) {
+        const startCfi = currentLocation.start.cfi;
+        const progress = this.currentBook.locations.percentageFromCfi(
+          currentLocation.start.cfi
+        );
+        this.setProgress(Math.floor(progress * 100));
+        this.setSection(currentLocation.start.index);
+        saveLocation(this.fileName, startCfi);
+        const bookmark = getBookmark(this.fileName);
+        if (bookmark) {
+          if (bookmark.some(item => item.cfi === startCfi)) {
+            this.setIsBookmark(true);
+          } else {
+            this.setIsBookmark(false);
+          }
+        } else {
+          this.setIsBookmark(false);
+        }
+      }
     },
     display(target, cb) {
       if (target) {
@@ -92,6 +104,17 @@ export const ebookMixin = {
           }
         });
       }
+    },
+    hideTitleAndMenu() {
+      this.setMenuVisible(false);
+      this.setSettingVisible(-1);
+      this.setFontFamilyVisible(false);
+    },
+    getReadTimeText() {
+      return this.$t("book.haveRead").replace(
+        "$1",
+        getReadTimeByMinute(this.fileName)
+      );
     }
   }
 };

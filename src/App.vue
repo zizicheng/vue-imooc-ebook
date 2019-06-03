@@ -44,5 +44,6 @@ window.addEventListener("resize", debounce(alterRootFontSize));
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: #5a5858;
 }
 </style>

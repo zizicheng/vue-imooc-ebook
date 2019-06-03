@@ -4,7 +4,9 @@
 .slide-up-enter-active,
 .slide-up-leave-active,
 .popup-slide-up-enter-active,
-.popup-slide-up-leave-active {
+.popup-slide-up-leave-active,
+.fade-slide-right-enter-active,
+.fade-slide-right-leave-active {
     transition: all 0.2s linear;
 }
 
@@ -28,4 +30,19 @@
 .popup-slide-up-leave-to {
     transform: translate3d(0, 100%, 0);
     opacity: 0;
+}
+
+.fade-slide-right-enter,
+.fade-slide-right-leave-to {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+}
+
+.switch-width-enter,
+.switch-width-leave-to {
+    transform: translate3d(-100%, 0, 0);
+}
+.switch-width-enter-active,
+.switch-width-leave-active {
+    transition: all 0.6s linear;
 }
