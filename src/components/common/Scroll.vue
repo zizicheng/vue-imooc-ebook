@@ -59,6 +59,7 @@ export default {
   width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  background: transparent !important;
   -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar {
     display: none;

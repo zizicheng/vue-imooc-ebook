@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import EbookSettingFont from "./EbookSettingFont";
-import EbookSettingFontPopup from "./EbookSettingFontPopup";
-import EbookSettingTheme from "./EbookSettingTheme";
-import EbookSettingProgress from "./EbookSettingProgress";
-import EbookSlide from "./EbookSlide";
+import EbookSettingFont from "./EbookSettingFont.vue";
+import EbookSettingFontPopup from "./EbookSettingFontPopup.vue";
+import EbookSettingTheme from "./EbookSettingTheme.vue";
+import EbookSettingProgress from "./EbookSettingProgress.vue";
+import EbookSlide from "./EbookSlide.vue";
 import { ebookMixin } from "../../utils/mixin";
 export default {
   mixins: [ebookMixin],

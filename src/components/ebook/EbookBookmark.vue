@@ -14,7 +14,7 @@
 
 <script>
 import { realPx } from "../../utils/utils";
-import BookMark from "../common/BookMark";
+import BookMark from "../common/BookMark.vue";
 import { ebookMixin } from "../../utils/mixin";
 import { getBookmark, saveBookmark } from "../../utils/localStorage";
 const BLUE = "#346cbc";

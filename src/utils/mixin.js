@@ -26,6 +26,12 @@ export const ebookMixin = {
     ]),
     themeList() {
       return themeList(this);
+    },
+    getSectionName() {
+      if (this.section) {
+        return this.navigation[this.section].label;
+      }
+      return "";
     }
   },
   methods: {
@@ -86,6 +92,17 @@ export const ebookMixin = {
         } else {
           this.setIsBookmark(false);
         }
+        if (this.pagelist) {
+          const totalPage = this.pagelist.length;
+          const currentPage = currentLocation.start.location;
+          if (currentPage && currentPage > 0) {
+            this.setPaginate(currentPage + " / " + totalPage);
+          } else {
+            this.setPaginate("");
+          }
+        } else {
+          this.setPaginate("");
+        }
       }
     },
     display(target, cb) {
@@ -115,6 +132,23 @@ export const ebookMixin = {
         "$1",
         getReadTimeByMinute(this.fileName)
       );
+    }
+  }
+};
+export const storeHomeMixin = {
+  computed: {
+    ...mapGetters(["offsetY", "hotSearchOffsetY", "flapCardVisible"])
+  },
+  methods: {
+    ...mapActions(["setOffsetY", "setHotSearchOffsetY", "setFlapCardVisible"]),
+    showBookDetail(book) {
+      this.$router.push({
+        path: "/store/detail",
+        query: {
+          fileName: book.fileName,
+          category: book.categoryText
+        }
+      });
     }
   }
 };

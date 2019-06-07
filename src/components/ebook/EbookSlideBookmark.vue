@@ -20,7 +20,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from '../common/Scroll'
+import Scroll from '../common/Scroll.vue'
 import { getBookmark } from '../../utils/localStorage'
 import { ebookMixin } from '../../utils/mixin'
 

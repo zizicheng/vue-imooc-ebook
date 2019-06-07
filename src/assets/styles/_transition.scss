@@ -6,7 +6,11 @@
 .popup-slide-up-enter-active,
 .popup-slide-up-leave-active,
 .fade-slide-right-enter-active,
-.fade-slide-right-leave-active {
+.fade-slide-right-leave-active,
+.title-move-enter-active,
+.title-move-leave-active,
+.hot-search-move-enter-active,
+.hot-search-move-leave-active {
     transition: all 0.2s linear;
 }
 
@@ -45,4 +49,17 @@
 .switch-width-enter-active,
 .switch-width-leave-active {
     transition: all 0.6s linear;
+}
+
+
+.title-move-enter,
+.title-move-leave-to {
+    transform: translate3d(0, px2rem(30), 0);
+    opacity: 0;
+}
+
+.hot-search-move-enter,
+.hot-search-move-leave-to {
+    transform: translate3d(0, px2rem(30), 0);
+    opacity: 0;
 }

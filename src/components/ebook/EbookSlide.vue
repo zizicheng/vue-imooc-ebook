@@ -42,9 +42,9 @@
 
 <script>
 import { ebookMixin } from "../../utils/mixin";
-import EbookSlideContents from "./EbookSlideContents";
-import EbookSlideBookmark from "./EbookSlideBookmark";
-import EbookLoading from "./EbookLoading";
+import EbookSlideContents from "./EbookSlideContents.vue";
+import EbookSlideBookmark from "./EbookSlideBookmark.vue";
+import EbookLoading from "./EbookLoading.vue";
 export default {
   mixins: [ebookMixin],
   components: {
@@ -77,7 +77,7 @@ export default {
   z-index: 101;
   background-color: #fff;
   .content {
-    flex: 0 0 85%;
+    flex: 0 0 auto;
     width: 85%;
     height: 100%;
     .content-page-wrapper {

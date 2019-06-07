@@ -24,7 +24,9 @@ import { ebookMixin } from "../../utils/mixin";
 export default {
   mixins: [ebookMixin],
   methods: {
-    back() {}
+    back() {
+      this.$router.go(-1);
+    }
   }
 };
 </script>
@@ -36,7 +38,7 @@ export default {
   display: flex;
   top: 0;
   left: 0;
-  z-index: 101;
+  z-index: 120;
   width: 100%;
   height: px2rem(48);
   background-color: #fff;
