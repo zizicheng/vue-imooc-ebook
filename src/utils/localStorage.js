@@ -85,3 +85,10 @@ export function getTheme() {
 export function saveTheme(theme) {
   setLocalStorage("theme", theme);
 }
+
+export function saveBookShelf(shelf) {
+  return setLocalStorage("shelf", shelf);
+}
+export function getBookShelf() {
+  return getLocalStorage("shelf");
+}

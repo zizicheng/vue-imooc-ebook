@@ -6,6 +6,7 @@ import i18n from "./lang/index";
 import "./assets/styles/global.scss";
 import "./assets/styles/icon.css";
 //import "./mock/index";
+import "./utils/create-api";
 
 Vue.config.productionTip = false;
 

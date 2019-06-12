@@ -26,6 +26,7 @@ import {
   getLocation
 } from "../../utils/localStorage";
 import Epub from "epubjs";
+import { getLocalForage } from "../../utils/localForage";
 
 export default {
   mixins: [ebookMixin],
@@ -233,8 +234,7 @@ export default {
       this.setSettingVisible(-1);
       this.setFontFamilyVisible(false);
     },
-    initEpub() {
-      const url = `${process.env.VUE_APP_RES_URL}/epub/${this.fileName}.epub`;
+    initEpub(url) {
       console.log(url);
       this.book = new Epub(url);
       this.setCurrentBook(this.book);
@@ -279,10 +279,24 @@ export default {
     }
   },
   mounted() {
-    const fileName = this.$route.params.fileName.replace(/\|/g, "/");
-    this.setFileName(fileName).then(() => {
-      this.initEpub();
+    const books = this.$route.params.fileName.split("|");
+    const fileName = books[1];
+    getLocalForage(fileName, (err, blob) => {
+      if (!err && blob) {
+        console.log("找到离线缓存电子书了");
+        this.setFileName(books.join("/")).then(() => {
+          this.initEpub(blob);
+        });
+      } else {
+        console.log("在线获取电子书");
+      }
     });
+    this.setFileName(this.$route.params.fileName.replace(/\|/g, "/")).then(
+      () => {
+        const url = `${process.env.VUE_APP_RES_URL}/epub/${this.fileName}.epub`;
+        this.initEpub(url);
+      }
+    );
     window.addEventListener("resize", () => {
       this.rendition.resize(window.innerWidth, window.innerHeight);
     });
