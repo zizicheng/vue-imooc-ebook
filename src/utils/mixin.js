@@ -154,10 +154,10 @@ export const storeHomeMixin = {
     ...mapGetters(["offsetY", "hotSearchOffsetY", "flapCardVisible"])
   },
   methods: {
-    ...mapActions(["setOffsetY", "setHotSearchOffsetY", "setFlapCardVisible"])
-  },
-  showBookDetail(book) {
-    gotoBookDetail(this, book);
+    ...mapActions(["setOffsetY", "setHotSearchOffsetY", "setFlapCardVisible"]),
+    showBookDetail(book) {
+      gotoBookDetail(this, book);
+    }
   }
 };
 

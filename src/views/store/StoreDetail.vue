@@ -99,6 +99,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {storeShelfMixin} from '../../utils/mixin'
 import DetailTitle from '../../components/detail/DetaiTitle'
 import BookInfo from '../../components/detail/BookInfo'
 import Scroll from '../../components/common/Scroll'
@@ -106,6 +107,9 @@ import Toast from '../../components/common/Toast'
 import { detail } from '../../api/store'
 import { px2rem, realPx } from '../../utils/utils'
 import Epub from 'epubjs'
+import { getLocalForage } from '../../utils/localForage';
+import { removeFromBookShelf, addToShelf } from '../../utils/store';
+import { saveBookShelf, getBookShelf } from '../../utils/localStorage';
 
 global.ePub = Epub
 
@@ -116,6 +120,7 @@ export default {
     BookInfo,
     Toast
   },
+  mixins: [storeShelfMixin],
   computed: {
     desc() {
       if (this.description) {
@@ -147,16 +152,18 @@ export default {
       return this.metadata ? this.metadata.creator : ''
     },
     inBookShelf() {
-      if (this.bookItem && this.bookShelf) {
-        const flatShelf = (function flatten(arr) {
-          return [].concat(...arr.map(v => v.itemList ? [v, ...flatten(v.itemList)] : v))
-        })(this.bookShelf).filter(item => item.type === 1)
-        const book = flatShelf.filter(item => item.fileName === this.bookItem.fileName)
-        return book && book.length > 0
-      } else {
-        return false
+        if (this.bookItem && this.shelfList) {
+          // 定义一个自执行函数，将书架转为一维数组结构，并且只保留type为1的数据（type=1的为电子书）
+          const flatShelf = (function flatten(arr) {
+            return [].concat(...arr.map(v => v.itemList ? [v, ...flatten(v.itemList)] : v))
+          })(this.shelfList).filter(item => item.type === 1)
+          // 查找当前电子书是否存在于书架
+          const book = flatShelf.filter(item => item.fileName === this.bookItem.fileName)
+          return book && book.length > 0
+        } else {
+          return false
+        }
       }
-    }
   },
   data() {
     return {
@@ -178,7 +185,19 @@ export default {
   },
   methods: {
     addOrRemoveShelf() {
-    },
+        // 如果电子书存在于书架，则从书架中移除电子书
+        if (this.inBookShelf) {
+          this.setShelfList(removeFromBookShelf(this.bookItem))
+            .then(() => {
+              // 将书架数据保存到LocalStorage
+              saveBookShelf(this.shelfList)
+            })
+        } else {
+          // 如果电子书不存在于书架，则添加电子书到书架
+          addToShelf(this.bookItem)
+          this.setShelfList(getBookShelf())
+        }
+      },
     showToast(text) {
       this.toastText = text
       this.$refs.toast.show()
@@ -189,8 +208,26 @@ export default {
       })
     },
     trialListening() {
+      getLocalForage(this.bookItem.fileName, (err, blob) => {
+        if (!err && blob && blob instanceof Blob) {
+          this.$router.push({
+            path: "/store/speaking",
+            query: {
+              fileName: this.bookItem.filter
+            }
+          })
+        }else {
+          this.$router.push({
+            path: "/store/speaking",
+            query: {
+              fileName: this.bookItem.fileName,
+              opf: this.opf
+            }
+          })
+        }
+      })
     },
-    read(item) {
+    read() {
       this.$router.push({
         path: `/ebook/${this.categoryText}|${this.fileName}`
       })
@@ -337,8 +374,6 @@ export default {
             font-size: px2rem(14);
             color: #333;
           }
-        }
-        #preview {
         }
         .book-detail-content-item-wrapper {
           .book-detail-content-item {
