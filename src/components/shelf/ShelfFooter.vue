@@ -41,7 +41,7 @@ import { storeShelfMixin } from "../../utils/mixin";
 import { saveBookShelf, removeLocalStorage } from "../../utils/localStorage";
 import { download } from "../../api/store";
 import { removeLocalForage } from "../../utils/localForage";
-import { reject, Promise } from "q";
+import { Promise } from "q";
 
 export default {
   mixins: [storeShelfMixin],
@@ -105,7 +105,6 @@ export default {
           });
           saveBookShelf(this.shelfList);
           this.simpleToast(this.$t("shelf.removeDownloadSuccess"));
-          console.log("完成删除");
         }
       );
     },

@@ -44,23 +44,32 @@ export function lengthLocalForage(cb) {
     .length()
     .then(numberOfKeys => {
       if (cb) cb(numberOfKeys);
-      console.log(numberOfKeys);
+      //console.log(numberOfKeys);
     })
     .catch(function(err) {
-      console.log(err);
+      //console.log(err);
+      if (err) {
+        return;
+      }
     });
 }
 
 export function iteratorLocalForage() {
   localForage
     .iterate(function(value, key, iterationNumber) {
-      console.log([key, value]);
+      //console.log([key, value]);
+      if (value && key && iterationNumber) {
+        return;
+      }
     })
     .then(function() {
-      console.log("Iteration has completed");
+      //console.log("Iteration has completed");
     })
     .catch(function(err) {
-      console.log(err);
+      if (err) {
+        return;
+      }
+      //console.log(err);
     });
 }
 

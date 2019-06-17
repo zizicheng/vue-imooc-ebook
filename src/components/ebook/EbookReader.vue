@@ -235,7 +235,6 @@ export default {
       this.setFontFamilyVisible(false);
     },
     initEpub(url) {
-      console.log(url);
       this.book = new Epub(url);
       this.setCurrentBook(this.book);
       this.initRendition();
@@ -254,7 +253,7 @@ export default {
               const loc = item.match(/\[(.*?)\]!/)[1];
               this.navigation.forEach(nav => {
                 if (nav.href) {
-                  const href = nav.href.match(/^(.*?)\.html$/)[1];
+                  const href = nav.href.match(/^(.*?)\.x?html$/)[1];
                   if (href === loc) {
                     nav.pagelist.push(item);
                   }
@@ -271,7 +270,6 @@ export default {
               currentPage += nav.pagelist.length + 1;
             });
             this.setPagelist(locations);
-            console.log(this.navigation);
             this.setBookAvailable(true);
             this.refreshLocation();
           });
@@ -283,17 +281,16 @@ export default {
     const fileName = books[1];
     getLocalForage(fileName, (err, blob) => {
       if (!err && blob) {
-        console.log("找到离线缓存电子书了");
         this.setFileName(books.join("/")).then(() => {
           this.initEpub(blob);
         });
       } else {
-        console.log("在线获取电子书");
+        //console.log("在线获取电子书");
       }
     });
     this.setFileName(this.$route.params.fileName.replace(/\|/g, "/")).then(
       () => {
-        const url = `${process.env.VUE_APP_RES_URL}/epub/${this.fileName}.epub`;
+        const url = `${process.env.VUE_APP_EPUB_URL}/${this.fileName}.epub`;
         this.initEpub(url);
       }
     );

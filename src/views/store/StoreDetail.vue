@@ -204,7 +204,7 @@ export default {
     },
     readBook() {
       this.$router.push({
-        path: `/ebook/${this.categoryText}|${this.fileName}`
+        path: `/ebook/${this.bookItem.categoryText}|${this.fileName}`
       })
     },
     trialListening() {
@@ -283,7 +283,7 @@ export default {
           fileName: this.fileName
         }).then(response => {
           if (response.status === 200 && response.data.error_code === 0 && response.data.data) {
-            console.log("response", response);
+            //console.log("response", response);
             const data = response.data.data
             this.bookItem = data
             this.cover = this.bookItem.cover
@@ -328,6 +328,9 @@ export default {
   },
   mounted() {
     this.init()
+    if (!this.shelfList || this.shelfList.length === 0) {
+      this.getShelfList();
+    }
   }
 }
 </script>

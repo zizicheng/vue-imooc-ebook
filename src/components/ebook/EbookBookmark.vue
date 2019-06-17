@@ -84,7 +84,6 @@ export default {
         .replace(/.*!/, "")
         .replace(/\)$/, "");
       const cfirange = `${cfibase}!,${cfistart},${cfiend})`;
-      console.log(cfirange);
       this.currentBook.getRange(cfirange).then(range => {
         const text = range.toString().replace(/\s\s/g, "");
         this.bookmark.push({
@@ -115,7 +114,6 @@ export default {
         this.setIsBookmark(true);
         this.addBookmark();
       } else {
-        console.log("删除书签");
         this.setIsBookmark(false);
         this.removeBookmark();
       }
